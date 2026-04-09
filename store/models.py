@@ -5,6 +5,8 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from uuid import uuid4
 
+from rest_framework.settings import perform_import
+
 
 class Promotion(models.Model):
     description = models.CharField(max_length=255)
@@ -44,7 +46,7 @@ class Product(models.Model):
         ordering = ['title']
 
 
-class Customer(models.Model):
+class  Customer(models.Model):
     MEMBERSHIP_BRONZE = 'B'
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
@@ -74,7 +76,9 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ['user__first_name', 'user__last_name']
-
+        permissions = [
+            ('view_history', ' Can View history')
+        ]
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
