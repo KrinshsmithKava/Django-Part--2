@@ -12,8 +12,8 @@ from rest_framework import status
 
 from store.permissions import IsAdminOrReadOnly, ViewCustomerHistroypermission
 from .filters import ProductFilter
-from .models import Cart, CartItem, Collection, Customer, Product, Review
-from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CollectionSerializer, CustomerSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
+from .models import Cart, CartItem, Collection, Customer, Order, Product, Review
+from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CollectionSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, UpdateCartItemSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -107,3 +107,9 @@ class   CustomerViewSet(ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    
+    
+    
