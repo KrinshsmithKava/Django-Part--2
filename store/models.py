@@ -1,11 +1,10 @@
 from django.contrib import admin
-from enum import unique
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from uuid import uuid4
 
-from rest_framework.settings import perform_import
+from store import permissions
 
 
 class Promotion(models.Model):
@@ -46,7 +45,7 @@ class Product(models.Model):
         ordering = ['title']
 
 
-class  Customer(models.Model):
+class Customer(models.Model):
     MEMBERSHIP_BRONZE = 'B'
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
@@ -65,11 +64,11 @@ class  Customer(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
-    
+
     @admin.display(ordering='user__first_name')
     def first_name(self):
         return self.user.first_name
-    
+
     @admin.display(ordering='user__last_name')
     def last_name(self):
         return self.user.last_name
@@ -77,8 +76,9 @@ class  Customer(models.Model):
     class Meta:
         ordering = ['user__first_name', 'user__last_name']
         permissions = [
-            ('view_history', ' Can View history')
+            ('view_history', 'Can view histroy')
         ]
+
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
@@ -99,6 +99,7 @@ class Order(models.Model):
         permissions = [
             ('cancel_order', 'Can cancel order')
         ]
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
